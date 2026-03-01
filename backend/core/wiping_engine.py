@@ -16,6 +16,7 @@ class WipingEngine:
                 f.seek(0)
                 f.write(b"\x00" * length)
                 f.flush()
+                os.fsync(f.fileno())
 
             os.remove(path)
 

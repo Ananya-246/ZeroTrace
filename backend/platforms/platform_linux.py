@@ -260,3 +260,62 @@
 #             subprocess.run(['sync'], check=True)
 #         except Exception as e:
 #             print(f"Error syncing filesystem: {e}")
+import os
+import subprocess
+from core.device_info import DeviceInfo
+
+
+class LinuxPlatform:
+
+    @staticmethod
+    def is_removable(path: str) -> bool:
+        devices = LinuxPlatform.list_devices()
+        for device in devices:
+            if device.path == path:
+                return device.is_removable
+        return False
+
+    @staticmethod
+    def list_devices():
+        devices = []
+
+        try:
+            # Use lsblk to get block device info
+            command = [
+                "lsblk",
+                "-o",
+                "NAME,MOUNTPOINT,SIZE,RM,FSTYPE",
+                "-J"
+            ]
+
+            result = subprocess.run(
+                command,
+                capture_output=True,
+                text=True
+            )
+
+            import json
+            data = json.loads(result.stdout)
+
+            for block in data.get("blockdevices", []):
+                mount = block.get("mountpoint")
+                size = block.get("size")
+                removable = block.get("rm")
+                fstype = block.get("fstype")
+
+                if mount:
+                    device = DeviceInfo(
+                        name=block.get("name"),
+                        path=mount,
+                        size=0,  # size string like "14G", keeping 0 for consistency
+                        filesystem=fstype if fstype else "Unknown",
+                        is_removable=bool(removable),
+                        mount_point=mount
+                    )
+
+                    devices.append(device)
+
+        except Exception as e:
+            print("Error detecting Linux devices:", e)
+
+        return devices

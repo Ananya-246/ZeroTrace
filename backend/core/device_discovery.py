@@ -5,6 +5,7 @@ Automatically detects OS and calls appropriate platform module.
 
 import platform
 from platforms.platform_windows import WindowsPlatform
+from platforms.platform_linux import LinuxPlatform
 from pathlib import Path
 import string
 
@@ -34,8 +35,7 @@ class DeviceDiscovery:
         if self.current_os == "Windows":
             return WindowsPlatform.list_devices()
         elif self.current_os == "Linux":
-            print("Linux support coming soon.")
-            return []
+            return LinuxPlatform.list_devices()
         elif self.current_os == "Darwin":
             print("macOS support coming soon.")
             return []
