@@ -1,6 +1,8 @@
 # Core dependencies
 cryptography>=41.0.0
 reportlab>=4.0.0
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
 
 # Linux-specific (only install on Linux)
 pyudev>=0.24.0
