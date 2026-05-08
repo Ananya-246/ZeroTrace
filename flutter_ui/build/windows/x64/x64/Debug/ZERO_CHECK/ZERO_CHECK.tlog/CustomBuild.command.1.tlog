@@ -1,0 +1,10 @@
+^D:\SECUREWIPE\FLUTTER_UI\BUILD\WINDOWS\X64\CMAKEFILES\67A902D361A4CD4DC4F8942FEC964017\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/SecureWipe/flutter_ui/windows -BD:/SecureWipe/flutter_ui/build/windows/x64 --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file D:/SecureWipe/flutter_ui/build/windows/x64/zerotrace_desktop.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
